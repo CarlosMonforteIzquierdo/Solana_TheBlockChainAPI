@@ -1,8 +1,10 @@
 from theblockchainapi import SolanaAPIResource, SolanaNetwork,SolanaCurrencyUnit,BlockchainAPIResource,Blockchain,BlockchainNetwork
 from decouple import config
+import requests
 
 API_KEY = config("BLOCKCHAIN_API_KEY")
 SECRET_KEY = config("BLOCKCHAIN_API_SECRET")
+COIN_GECKO_API_KEY= config("COIN_GECKO_API_KEY")
 DEFAULT_UNIT = SolanaCurrencyUnit.SOL
 DEFAULT_NETWORK = SolanaNetwork.MAINNET_BETA
 
@@ -17,7 +19,28 @@ SOLANA_BLOCKCHAIN_API_RESOURCE = BlockchainAPIResource(
     blockchain=Blockchain.SOLANA,
     network=BlockchainNetwork.SolanaNetwork.MAINNET_BETA
 )
-    
+def get_token_USD_price(token_address):
+    url = "https://api.coingecko.com/api/v3/simple/token_price/solana"
+    params = {
+        "contract_addresses": token_address,
+        "vs_currencies": "usd"
+    }
+    headers = {
+        "accept": "application/json",
+        "x-cg-demo-api-key": COIN_GECKO_API_KEY
+    }
+
+    try:
+        response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()  # Verifica que no haya errores HTTP
+        data = response.json()
+        token_data = data.get(token_address)
+        
+        return float(token_data.get("usd", 0.0)) if token_data else 0.0
+    except requests.exceptions.RequestException:
+        return 0.0
+
+
 def get_token_holdings(wallet_address):
     return BLOCKCHAIN_API_RESOURCE.get_wallet_token_holdings(
         wallet_address,
@@ -35,10 +58,7 @@ def main():
     for token in token_holdings:
         mint_address = token.get("mint_address")
         ui_amount = token.get("ui_amount", 0)
-
-        #Falta conectar con API de CoinGecko para obtener el precio en USD
-        price_in_USD = 1.0
-        amount_in_usd = ui_amount * price_in_USD
+        amount_in_usd = ui_amount * get_token_USD_price(mint_address)
 
         print(f"Mint Address: {mint_address}")
         print(f"Amount of tokens: {ui_amount}")
