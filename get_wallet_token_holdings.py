@@ -21,7 +21,7 @@ SOLANA_BLOCKCHAIN_API_RESOURCE = BlockchainAPIResource(
 )
 
 def get_token_USD_price(token_address):
-    url = "https://api.coingecko.com/api/v3/simple/token_price/solana/contract/"
+    url = "https://api.coingecko.com/api/v3/simple/token_price/solana"
     params = {
         "contract_addresses": token_address,
         "vs_currencies": "usd"
@@ -68,7 +68,6 @@ def main():
     token_holdings = get_token_holdings(wallet_address)
     
     print(f"Tokens held by {wallet_address}:")
-    print("\n")
 
     for token in token_holdings:
         mint_address = token.get("mint_address")
