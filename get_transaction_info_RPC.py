@@ -1,13 +1,11 @@
+#    Obtiene detalles de una transacción en la blockchain de Solana para identificar los tokens vendidos y comprados.
 import requests
 import json
 from decouple import config
 
 API_KEY = config("HELIUS_API_KEY")  #Colocar API key de RPC 
 def get_transaction_details(signature):
-    """
-    Obtiene detalles de una transacción en la blockchain de Solana
-    para identificar los tokens vendidos y comprados.
-    """
+    
     base_url = f"https://api.helius.xyz/v0/transactions/{signature}?api-key={API_KEY}"
     
     try:
@@ -37,7 +35,6 @@ def get_transaction_details(signature):
                         "decimals": pre["uiTokenAmount"]["decimals"],
                         "ui_amount": abs(change) / (10 ** pre["uiTokenAmount"]["decimals"])
                     })
-        
         # Estructurar el JSON final
         result = {
             "transaction_signature": signature,
