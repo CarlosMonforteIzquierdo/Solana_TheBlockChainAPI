@@ -4,7 +4,7 @@ from decouple import config
 API_KEY = config("BLOCKCHAIN_API_KEY")
 SECRET_KEY = config("BLOCKCHAIN_API_SECRET")
 
-#Declare token we want to get balance of(in this case SOL) and the network (in this case SOL network)
+#Declare token we want to get balance of(in this case SOL) and the network solana
 DEFAULT_UNIT = SolanaCurrencyUnit.SOL
 DEFAULT_NETWORK = SolanaNetwork.MAINNET_BETA
 

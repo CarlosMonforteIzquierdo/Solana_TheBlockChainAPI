@@ -1,4 +1,5 @@
 #    Obtiene detalles de una transacción en la blockchain de Solana para identificar los tokens vendidos y comprados.
+#    Aún no funciona correctamente
 import requests
 import json
 from decouple import config
