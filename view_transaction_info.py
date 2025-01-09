@@ -29,21 +29,7 @@ def view_swap_info(file_path):
                             "received_amount": transfer_in.get("tokenAmount")
                         })
                         break #evitar duplicar swap
-            return swaps
-            """   
-            # Agrupar transferencias por "fromUserAccount" y "toUserAccount"
-            for transfer in token_transfers:
-                from_user = transfer.get("fromUserAccount")
-                to_user = transfer.get("toUserAccount")
-
-                # Detectar si es un swap basado en las transferencias
-                if from_user and to_user and from_user == to_user:
-                    swaps.append({
-                        "tokenAmount": transfer.get("tokenAmount"),
-                        "mint": transfer.get("mint")
-                    })
-            """
-
+            
 
         return swaps
 
