@@ -5,10 +5,13 @@ from decouple import config
 API_KEY = config("HELIUS_API_KEY")
 
 def get_transaction_details(signature):
-    base_url = f"https://api.helius.xyz/v0/transactions/{signature}?api-key={API_KEY}"
-    
+    base_url = f"https://api.helius.xyz/v0/transactions/?api-key={API_KEY}"
+
+    payload = {
+        "transactions": [signature]
+    } 
     try:
-        response = requests.get(base_url)
+        response = requests.post(base_url, headers={"Content-Type": "application/json"}, data=json.dumps(payload))
         if response.status_code != 200:
             return {
                 "error": "Error al obtener datos de la transacción",
@@ -17,6 +20,8 @@ def get_transaction_details(signature):
             }
         
         transaction_data = response.json()
+        return transaction_data
+        """
         pre_balances = transaction_data.get("preTokenBalances", [])
         post_balances = transaction_data.get("postTokenBalances", [])
         
@@ -41,13 +46,13 @@ def get_transaction_details(signature):
         return {
             "transaction_signature": signature,
             "token_changes": token_changes
-        }
+        }"""
     
     except requests.exceptions.RequestException as e:
         return {"error": f"Error al conectar con la API: {e}"}
 
 if __name__ == "__main__":
-    transaction_signature = "3XhxLMMf3nwhQpwVUKjNtQUfizYDJ3WzQwp2vsXsLCcLX2NfFiHQTJRQz4f8ncCiTBFYRTV9GYvqRnYP7QqroW9b"
+    transaction_signature = "4sZcq9pggC97krHjLai2rwDkbgi6DrHS1JVtmTTDvAtXU5oaLZWcrCWB2Ggh7udiD7N2TMzHWDjRsegQRvhMjaL8"
     result = get_transaction_details(transaction_signature)
     
     # Guardar en un archivo JSON
