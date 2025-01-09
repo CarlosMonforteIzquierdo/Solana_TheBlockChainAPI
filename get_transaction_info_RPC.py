@@ -52,7 +52,7 @@ def get_transaction_details(signature):
         return {"error": f"Error al conectar con la API: {e}"}
 
 if __name__ == "__main__":
-    transaction_signature = "4sZcq9pggC97krHjLai2rwDkbgi6DrHS1JVtmTTDvAtXU5oaLZWcrCWB2Ggh7udiD7N2TMzHWDjRsegQRvhMjaL8"
+    transaction_signature = "2zqZdDBpfGiRi7gZ4GYBXnHiJPGK4EAA8N5uJtXCL1ASb1GNXrKWMkxHjshExBjqnxcxaFbijueTFF15KRoYUBy8"
     result = get_transaction_details(transaction_signature)
     
     # Guardar en un archivo JSON
