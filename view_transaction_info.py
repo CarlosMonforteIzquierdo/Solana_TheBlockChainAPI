@@ -11,6 +11,7 @@ def view_swap_info(file_path):
             data = json.load(file)
         
         swaps = []
+        processed_pairs = set() #Conjunto para evitar duplicados
 
         for transaction in data:
             # Validar si existen transferencias de tokens
@@ -22,13 +23,15 @@ def view_swap_info(file_path):
                     if(
                         transfer_out["fromUserAccount"] == transfer_in["toUserAccount"] and transfer_out["toUserAccount"] == transfer_in["fromUserAccount"]
                     ):
-                        swaps.append({
-                            "sent_mint": transfer_out.get("mint"),
-                            "sent_amount": transfer_out.get("tokenAmount"),
-                            "received_mint": transfer_in.get("mint"),
-                            "received_amount": transfer_in.get("tokenAmount")
-                        })
-                        break #evitar duplicar swap
+                        pair_key = tuple(sorted([transfer_out["mint"], transfer_in["mint"]]))
+                        if pair_key not in processed_pairs:
+                            swaps.append({
+                                "sent_mint": transfer_out.get("mint"),
+                                "sent_amount": transfer_out.get("tokenAmount"),
+                                "received_mint": transfer_in.get("mint"),
+                                "received_amount": transfer_in.get("tokenAmount")
+                            })
+                            processed_pairs.add(pair_key) #Marcar par como procesado
             
 
         return swaps
