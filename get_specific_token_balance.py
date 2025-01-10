@@ -1,3 +1,4 @@
+#Gets the amount of SOL in a wallet
 from theblockchainapi import SolanaAPIResource, SolanaNetwork, SolanaCurrencyUnit
 from decouple import config
 

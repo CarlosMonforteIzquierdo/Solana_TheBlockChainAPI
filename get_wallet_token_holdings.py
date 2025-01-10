@@ -1,3 +1,12 @@
+#Gets the amount of tokens of a wallet
+#Output example:
+#TOkens held by "wallet_address"
+
+#For every token 
+#Token: "Name" (Searched in coingecko)
+#Mint Address: "Coin_Address"
+#Amount of tokens: "Number of tokens"
+#Amount (in USD): "Value USD"
 from theblockchainapi import SolanaAPIResource, SolanaNetwork,SolanaCurrencyUnit,BlockchainAPIResource,Blockchain,BlockchainNetwork
 from decouple import config
 import requests
